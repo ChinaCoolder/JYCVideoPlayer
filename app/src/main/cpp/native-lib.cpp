@@ -13,7 +13,7 @@ extern "C" {
 
         char info[40000] = {0};
         void* cOpaque = nullptr;
-        const AVCodec *c_temp = nullptr;
+        const AVCodec *c_temp;
 
         while ((c_temp = av_codec_iterate(&cOpaque))) {
             if (c_temp->decode != nullptr) {

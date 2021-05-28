@@ -5,7 +5,7 @@
 
 cmake_minimum_required(VERSION 3.10.2)
 
-set(ffmpeg_lib_dir ${CMAKE_SOURCE_DIR}/../../../libs/${ANDROID_ABI})
+set(ffmpeg_lib_dir ${CMAKE_SOURCE_DIR}/ffmpeg/libs/${ANDROID_ABI})
 include_directories(${CMAKE_SOURCE_DIR}/ffmpeg/include)
 
 # Declares and names the project.
