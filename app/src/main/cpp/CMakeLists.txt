@@ -73,7 +73,7 @@ set_target_properties(swscale
 
 find_library( # Defines the name of the path variable that stores the
         # location of the NDK library.
-        log-lib
+        log
 
         # Specifies the name of the NDK library that
         # CMake needs to locate.
@@ -99,6 +99,14 @@ target_link_libraries(
         avutil
         swresample
         swscale
+
+        android
+        EGL
+        GLESv3
+        OpenSLES
+        log
+        m
+        z
 
         ${log-lib}
 )
