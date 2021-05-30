@@ -1,65 +1,82 @@
-# For more information about using CMake with Android Studio, read the
-# documentation: https://d.android.com/studio/projects/add-native-code.html
-
-# Sets the minimum version of CMake required to build the native library.
-
 cmake_minimum_required(VERSION 3.10.2)
 
+project("JYCVideoPlayer")
+set(libname jyc-player)
+
+include_directories(
+    ${CMAKE_SOURCE_DIR}/ffmpeg/include
+    ${CMAKE_SOURCE_DIR}/player
+    ${CMAKE_SOURCE_DIR}/player/decoder
+)
+
+file(GLOB src-files
+    ${CMAKE_SOURCE_DIR}/*.cpp
+    ${CMAKE_SOURCE_DIR}/player/*.cpp
+    ${CMAKE_SOURCE_DIR}/player/decoder/*.cpp
+    )
+
+add_library(
+        ${libname}
+        SHARED
+        ${src-files}
+)
+
+set(third-party-libs
+        avcodec
+        avdevice
+        avfilter
+        avformat
+        avutil
+        swresample
+        swscale)
+
+set(native-libs
+        android
+        EGL
+        GLESv3
+        OpenSLES
+        log
+        m
+        z)
+
+
 set(ffmpeg_lib_dir ${CMAKE_SOURCE_DIR}/ffmpeg/libs/${ANDROID_ABI})
-include_directories(${CMAKE_SOURCE_DIR}/ffmpeg/include)
-
-# Declares and names the project.
-
-project("videoplayer")
-
-# Searches for a specified prebuilt library and stores the path as a
-# variable. Because CMake includes system libraries in the search path by
-# default, you only need to specify the name of the public NDK library
-# you want to add. CMake verifies that the library exists before
-# completing its build.
-
 add_library(avcodec
         SHARED
         IMPORTED)
 set_target_properties(avcodec
         PROPERTIES IMPORTED_LOCATION
         ${ffmpeg_lib_dir}/libavcodec.so)
-
 add_library(avdevice
         SHARED
         IMPORTED)
 set_target_properties(avdevice
         PROPERTIES IMPORTED_LOCATION
         ${ffmpeg_lib_dir}/libavdevice.so)
-
 add_library(avfilter
         SHARED
         IMPORTED)
 set_target_properties(avfilter
         PROPERTIES IMPORTED_LOCATION
         ${ffmpeg_lib_dir}/libavfilter.so)
-
 add_library(avformat
         SHARED
         IMPORTED)
 set_target_properties(avformat
         PROPERTIES IMPORTED_LOCATION
         ${ffmpeg_lib_dir}/libavformat.so)
-
 add_library(avutil
         SHARED
         IMPORTED)
 set_target_properties(avutil
         PROPERTIES IMPORTED_LOCATION
         ${ffmpeg_lib_dir}/libavutil.so)
-
 add_library(swresample
         SHARED
         IMPORTED)
 set_target_properties(swresample
         PROPERTIES IMPORTED_LOCATION
         ${ffmpeg_lib_dir}/libswresample.so)
-
 add_library(swscale
         SHARED
         IMPORTED)
@@ -67,46 +84,9 @@ set_target_properties(swscale
         PROPERTIES IMPORTED_LOCATION
         ${ffmpeg_lib_dir}/libswscale.so)
 
-# Specifies libraries CMake should link to your target library. You
-# can link multiple libraries, such as libraries you define in this
-# build script, prebuilt third-party libraries, or system libraries.
-
-find_library( # Defines the name of the path variable that stores the
-        # location of the NDK library.
-        log
-
-        # Specifies the name of the NDK library that
-        # CMake needs to locate.
-        log )
-
-add_library( # Sets the name of the library.
-        native-lib
-
-        # Sets the library as a shared library.
-        SHARED
-
-        # Provides a relative path to your source file(s).
-        native-lib.cpp
-        )
-
 target_link_libraries(
-        native-lib
-
-        avcodec
-        avdevice
-        avfilter
-        avformat
-        avutil
-        swresample
-        swscale
-
-        android
-        EGL
-        GLESv3
-        OpenSLES
-        log
-        m
-        z
-
+        ${libname}
         ${log-lib}
+        ${third-party-libs}
+        ${native-libs}
 )

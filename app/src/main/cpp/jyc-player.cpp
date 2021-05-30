@@ -13,25 +13,19 @@ extern "C" {
     #include <libswscale/swscale.h>
     #include <android/native_window.h>
     #include <android/native_window_jni.h>
-    #include <android/asset_manager_jni.h>
 
     JNIEXPORT void JNICALL
-    Java_god_jyc_videoplayer_component_player_FFPlayer_drawSingleFrame(
+    Java_god_jyc_videoplayer_component_player_JYCPlayer_drawSingleFrame(
             JNIEnv *env,
             jobject jThis,
             jobject jAssetManager,
             jstring assetName,
             jobject surface
     ) {
-        AAssetManager* assetManager = AAssetManager_fromJava(env, jAssetManager);
-        const char *szAssetName = env->GetStringUTFChars(assetName, nullptr);
-        AAsset* asset = AAssetManager_open(assetManager, szAssetName, AASSET_MODE_RANDOM);
-        env->ReleaseStringUTFChars(assetName, szAssetName);
-        off_t offset, length;
-        int fd = AAsset_openFileDescriptor(asset, &offset, &length);
-        AAsset_close(asset);
+
 
         AVFormatContext *formatContext = avformat_alloc_context();
+
         auto openInputResult = avformat_open_input(&formatContext, env->GetStringUTFChars(url, nullptr), nullptr, nullptr);
         if (openInputResult == 0) {
             if (avformat_find_stream_info(formatContext, nullptr) == 0) {

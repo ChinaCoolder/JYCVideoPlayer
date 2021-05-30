@@ -6,8 +6,10 @@
 #define JYCVIDEOPLAYER_FFPLAYER_H
 
 
-class FFPlayer {
 
+class FFPlayer {
+public:
+    void Init();
 };
 
 

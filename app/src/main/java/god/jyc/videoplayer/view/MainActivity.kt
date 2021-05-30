@@ -1,37 +1,24 @@
 package god.jyc.videoplayer.view
 
-import android.content.ContentValues
 import android.opengl.GLSurfaceView
 import android.os.Bundle
 import android.os.Environment
-import android.provider.MediaStore
-import android.util.Log
-import android.view.Surface
-import android.widget.TextView
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import dagger.hilt.android.AndroidEntryPoint
-import god.jyc.videoplayer.R
-import god.jyc.videoplayer.component.player.FFPlayer
-import java.io.*
+import god.jyc.videoplayer.component.player.JYCPlayer
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -63,7 +50,7 @@ class MainActivity : ComponentActivity() {
                 AndroidView(
                     {
                         GLSurfaceView(it).apply {
-                            FFPlayer().drawFirstFrame(context.assets, "test.mp4", this.holder.surface)
+                            JYCPlayer().drawFirstFrame(context.assets, "test.mp4", this.holder.surface)
                         }
                     },
                     Modifier

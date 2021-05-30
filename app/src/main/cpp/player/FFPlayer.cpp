@@ -3,3 +3,8 @@
 //
 
 #include "FFPlayer.h"
+
+
+void FFPlayer::Init() {
+    std
+}
